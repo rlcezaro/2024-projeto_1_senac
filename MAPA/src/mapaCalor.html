@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MAPA DE CALOR</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+  </head>
+  <body onload="initMap('todos')">
+    <h1>MAPA DE CALOR</h1>
+
+    <div id="map"></div>
+
+    <input type="button" onclick="initMap('todos')" value="Todos">
+    <input type="button" onclick="initMap('assaltoFurto')" value="Assalto/Furto">
+    <input type="button" onclick="initMap('asfaltoCalcada')" value="Problema no asfalto/calçada">
+    <input type="button" onclick="initMap('aguaLuz')" value="Falta de água/luz">
+
+
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHwCPBIbCBF_DC6KKYY04TsI6qgyTd-J8&libraries=visualization&callback=initMap">
+    </script>
+    <script src="scripts/mapaCalor.js"></script>
+  </body>
+</html>
