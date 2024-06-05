@@ -23,24 +23,24 @@ async function initMap(lat, lng, zoomLvl) {
   ajax.open("GET", "http://localhost:8081/ocorrencias")
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {
-        var obj = JSON.parse(ajax.responseText)
-        obj.forEach((element) => {
-            const infowindow = new google.maps.InfoWindow({
-                content: "<h1>"+element.titulo+"</h1>"+element.descricao,
-                ariaLabel: element.titulo,
-            })
-            const marker = new AdvancedMarkerView({
-                map: map,
-                position: { lat: element.latitude, lng: element.longitude },
-            })
-            marker.addListener("gmp-click", () => {
-            //marker.addListener("click", () => {
-                infowindow.open({
-                  anchor: marker,
-                  map,
-                })
-              })
+      var obj = JSON.parse(ajax.responseText)
+      obj.forEach((ocorrencia) => {
+        const infowindow = new google.maps.InfoWindow({
+            content: "<h1>"+ocorrencia.titulo+"</h1>"+ocorrencia.descricao,
+            ariaLabel: ocorrencia.titulo,
         })
+        const marker = new AdvancedMarkerView({
+          map: map,
+          position: { lat: ocorrencia.latitude, lng: ocorrencia.longitude },
+        })
+        marker.addListener("gmp-click", () => {
+        //marker.addListener("click", () => {
+          infowindow.open({
+            anchor: marker,
+            map,
+          })
+        })
+      })
     }
   }
   ajax.send()
@@ -50,65 +50,64 @@ async function initMap(lat, lng, zoomLvl) {
 
 
 function verOcorrencias() {
-    document.getElementById("ocorrencias").innerHTML = ""
+  document.getElementById("ocorrencias").innerHTML = ""
     var ajax = new XMLHttpRequest()
     ajax.open("GET", "http://localhost:8081/ocorrencias")
     ajax.onreadystatechange = function () {
       if (ajax.readyState === XMLHttpRequest.DONE) {
-          var obj = JSON.parse(ajax.responseText)
-          obj.forEach((element) => {
-            
-            pegarEndereco(element.latitude, element.longitude).then((endereco) => {
-                document.getElementById("ocorrencias").innerHTML +=  `<div id=`+element.id+`></div>`
-                document.getElementById(element.id).innerHTML += "<hr/>"
-                document.getElementById(element.id).innerHTML += "<p>Titulo:"+element.titulo+"</p>"
-                document.getElementById(element.id).innerHTML += "<p>Descrição: "+element.descricao+"</p>"
-                document.getElementById(element.id).innerHTML += "<p>Tipo: "+element.tipo+"</p>"
-                document.getElementById(element.id).innerHTML += "<p>Endereço: " + endereco + "</p>"
+        var obj = JSON.parse(ajax.responseText)
+        obj.forEach((ocorrencia) => {
+          pegarEndereco(ocorrencia.latitude, ocorrencia.longitude).then((endereco) => {
+            document.getElementById("ocorrencias").innerHTML +=  "<div id="+ocorrencia.id+"></div>"
+            divOcorrencia = document.getElementById(ocorrencia.id)
 
-                document.getElementById(element.id).innerHTML += "<p>Status:</p>"
-                document.getElementById(element.id).innerHTML += `<select style="display:block" id="status">
-                                                                    <option id="aberto" value="aberto">Aberto</option>
-                                                                    <option id="emAndamento" value="emAndamento">Em andamento</option>
-                                                                    <option id="encerrado" value="encerrado">Encerrado</option>
-                                                                  </select>`
-                document.getElementById(element.statusAndamento).setAttribute("selected", "selected")
+            divOcorrencia.innerHTML += "<hr/>"
+            divOcorrencia.innerHTML += "<p>Titulo:"+ocorrencia.titulo+"</p>"
+            divOcorrencia.innerHTML += "<p>Descrição: "+ocorrencia.descricao+"</p>"
+            divOcorrencia.innerHTML += "<p>Tipo: "+ocorrencia.tipo+"</p>"
+            divOcorrencia.innerHTML += "<p>Endereço: " + endereco + "</p>"
+
+            divOcorrencia.innerHTML += "<p>Status:</p>"
+            divOcorrencia.innerHTML += `<select style="display:block" id="status">
+                                          <option id="aberto" value="aberto">Aberto</option>
+                                          <option id="emAndamento" value="emAndamento">Em andamento</option>
+                                          <option id="encerrado" value="encerrado">Encerrado</option>
+                                        </select>`
+            document.getElementById(ocorrencia.statusAndamento).setAttribute("selected", "selected")
                 
-                document.getElementById(element.id).innerHTML += "<p>Observação:</p>"
-                document.getElementById(element.id).innerHTML += `<input type="text" id="observacao`+element.id+`" value="`+element.observacao+`">`
-                document.getElementById(element.id).innerHTML += "<br/>"
-                document.getElementById(element.id).innerHTML += "<br/>"
-                document.getElementById(element.id).innerHTML += `<input type="button" onclick="initMap(`+element.latitude+`,`+element.longitude+`,17)" value="Ver no mapa">`
-                document.getElementById(element.id).innerHTML += `<input type="button" onclick="attOcorrencia(`+element.id+`)" value="Salvar">`
-                document.getElementById(element.id).innerHTML += `<input type="button" onclick="deletar(`+element.id+`)" value="Deletar">`
-            })
+            divOcorrencia.innerHTML += "<p>Observação:</p>"
+            divOcorrencia.innerHTML += `<input type="text" id="observacao`+ocorrencia.id+`" value="`+ocorrencia.observacao+`">`
+            divOcorrencia.innerHTML += "<br/>"
+            divOcorrencia.innerHTML += "<br/>"
+            divOcorrencia.innerHTML += `<input type="button" onclick="initMap(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`,17)" value="Ver no mapa">`
+            divOcorrencia.innerHTML += `<input type="button" onclick="attOcorrencia(`+ocorrencia.id+`)" value="Salvar">`
+            divOcorrencia.innerHTML += `<input type="button" onclick="deletar(`+ocorrencia.id+`)" value="Deletar">`
+          })
         })
       }
       initMap()
     }
-    ajax.send()
-  }
+  ajax.send()
+}
 
 
 
 function pegarEndereco(lat, lng) {
-    return new Promise((resolve) => {
-        var ajax = new XMLHttpRequest()
-        ajax.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="
-        +lat+","+lng+"&key=AIzaSyDHwCPBIbCBF_DC6KKYY04TsI6qgyTd-J8")
-
-        ajax.onreadystatechange = function () {
-            if (ajax.readyState === XMLHttpRequest.DONE) {
-                if (ajax.status === 200) {
-                    var obj = JSON.parse(ajax.responseText)
-                    if (obj.results && obj.results.length > 0) {
-                        resolve(obj.results[0].formatted_address)
-                    }
-                } 
-            }
-        }
-        ajax.send()
-    })
+  return new Promise((resolve) => {
+    var ajax = new XMLHttpRequest()
+    ajax.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&key=AIzaSyDHwCPBIbCBF_DC6KKYY04TsI6qgyTd-J8")
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState === XMLHttpRequest.DONE) {
+        if (ajax.status === 200) {
+          var obj = JSON.parse(ajax.responseText)
+          if (obj.results && obj.results.length > 0) {
+            resolve(obj.results[0].formatted_address)
+          }
+        } 
+      }
+    }
+    ajax.send()
+  })
 }
 
 function attOcorrencia(id){
@@ -117,8 +116,11 @@ function attOcorrencia(id){
   ajax = new XMLHttpRequest()
   ajax.open("PUT", "http://localhost:8081/attOcorrencia", true)
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-  ajax.send("id="+id+"&status="+status+"&observacao="+observacao)
-
+  if (observacao == "null" || observacao == "") {
+    ajax.send("id="+id+"&status="+status)
+  }else{
+    ajax.send("id="+id+"&status="+status+"&observacao="+observacao)
+  }
 }
 
 function deletar(id) {
@@ -126,9 +128,9 @@ function deletar(id) {
   ajax.open("DELETE", "http://localhost:8081/deletar", true)
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
   ajax.onreadystatechange = function () {
-      if (ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
-          verOcorrencias() 
-      }
+    if (ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
+      verOcorrencias() 
+    }
     initMap()
   }
   ajax.send("id=" + id)

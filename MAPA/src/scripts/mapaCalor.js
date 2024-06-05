@@ -15,15 +15,15 @@ async function initMap(tipo) {
   }
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {
-        var obj = JSON.parse(ajax.responseText)
-        var heatmapData = []
-        obj.forEach((element) => {
-          heatmapData.push({location: new google.maps.LatLng(element.latitude, element.longitude), weight: 1})
-        })
-        var heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatmapData,
-        })
-        heatmap.setMap(map)
+      var obj = JSON.parse(ajax.responseText)
+      var heatmapData = []
+      obj.forEach((element) => {
+        heatmapData.push({location: new google.maps.LatLng(element.latitude, element.longitude), weight: 1})
+      })
+      var heatmap = new google.maps.visualization.HeatmapLayer({
+        data: heatmapData,
+      })
+      heatmap.setMap(map)
     }
   }
   ajax.send()

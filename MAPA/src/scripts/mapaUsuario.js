@@ -23,24 +23,24 @@ async function initMap(lat, lng, zoomLvl) {
   ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {
-        var obj = JSON.parse(ajax.responseText)
-        obj.forEach((element) => {
-            const infowindow = new google.maps.InfoWindow({
-                content: "<h1>"+element.titulo+"</h1>"+element.descricao,
-                ariaLabel: element.titulo,
-            })
-            const marker = new AdvancedMarkerView({
-                map: map,
-                position: { lat: element.latitude, lng: element.longitude },
-            })
-            marker.addListener("gmp-click", () => {
-            //marker.addListener("click", () => {
-                infowindow.open({
-                  anchor: marker,
-                  map,
-                })
-              })
+      var obj = JSON.parse(ajax.responseText)
+      obj.forEach((ocorrencia) => {
+        const infowindow = new google.maps.InfoWindow({
+          content: "<h1>"+ocorrencia.titulo+"</h1>"+ocorrencia.descricao,
+          ariaLabel: ocorrencia.titulo,
         })
+        const marker = new AdvancedMarkerView({
+          map: map,
+          position: { lat: ocorrencia.latitude, lng: ocorrencia.longitude },
+        })
+        marker.addListener("gmp-click", () => {
+        //marker.addListener("click", () => {
+          infowindow.open({
+            anchor: marker,
+            map,
+          })
+        })
+      })
     }
   }
   ajax.send()
@@ -50,51 +50,54 @@ async function initMap(lat, lng, zoomLvl) {
 
 
 function verOcorrencias() {
-    document.getElementById("ocorrencias").innerHTML = ""
-    var ajax = new XMLHttpRequest()
-    ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
-    ajax.onreadystatechange = function () {
-      if (ajax.readyState === XMLHttpRequest.DONE) {
-          var obj = JSON.parse(ajax.responseText)
-          obj.forEach((element) => {
-            
-            pegarEndereco(element.latitude, element.longitude).then((endereco) => {
-                document.getElementById("ocorrencias").innerHTML +=  "<hr/>"
-                document.getElementById("ocorrencias").innerHTML +=  `<p id= ""`+element.id+`">Titulo: `+element.titulo+`</p>`
-                document.getElementById("ocorrencias").innerHTML +=  "<p>Descrição: "+element.descricao+"</p>"
-                document.getElementById("ocorrencias").innerHTML +=  "<p>Tipo: "+element.tipo+"</p>"
-                document.getElementById("ocorrencias").innerHTML += "<p>Endereço: " + endereco + "</p>"
-                document.getElementById("ocorrencias").innerHTML +=  "<p>Status: "+element.statusAndamento+"</p>"
-                if(element.observacao != null){
-                  document.getElementById("ocorrencias").innerHTML +=  "<p>Observação: "+element.observacao+"</p>"
-                }
-                document.getElementById("ocorrencias").innerHTML +=  `<input type="button" onclick="initMap(`+element.latitude+`,`+element.longitude+`,17)" value="Ver no mapa">`
-            })
-        })
-      }
-      initMap()
+  document.getElementById("ocorrencias").innerHTML = ""
+  var ajax = new XMLHttpRequest()
+  ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
+  ajax.onreadystatechange = function () {
+    if (ajax.readyState === XMLHttpRequest.DONE) {
+      var obj = JSON.parse(ajax.responseText)
+      obj.forEach((ocorrencia) => {
+        pegarEndereco(ocorrencia.latitude, ocorrencia.longitude).then((endereco) => {
+          document.getElementById("ocorrencias").innerHTML += "<div id="+ocorrencia.id+"></div>"
+          divOcorrencia = document.getElementById(ocorrencia.id)
+
+
+          divOcorrencia.innerHTML += "<hr/>"
+          divOcorrencia.innerHTML += "<p>Titulo: "+ocorrencia.titulo+"</p>"
+          divOcorrencia.innerHTML += "<p>Descrição: "+ocorrencia.descricao+"</p>"
+          divOcorrencia.innerHTML += "<p>Tipo: "+ocorrencia.tipo+"</p>"
+          divOcorrencia.innerHTML += "<p>Endereço: " + endereco + "</p>"
+          divOcorrencia.innerHTML += "<p>Status: "+ocorrencia.statusAndamento+"</p>"
+          if(ocorrencia.observacao != null){
+            divOcorrencia.innerHTML += "<p>Observação: "+ocorrencia.observacao+"</p>"
+          }
+          divOcorrencia.innerHTML +=  `<input type="button" onclick="initMap(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`,17)" value="Ver no mapa">`
+          })
+      })
     }
-    ajax.send()
+    initMap()
   }
+  ajax.send()
+}
 
 
 
 function pegarEndereco(lat, lng) {
-    return new Promise((resolve) => {
-        var ajax = new XMLHttpRequest()
-        ajax.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="
-        +lat+","+lng+"&key=AIzaSyDHwCPBIbCBF_DC6KKYY04TsI6qgyTd-J8")
+  return new Promise((resolve) => {
+    var ajax = new XMLHttpRequest()
+    ajax.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="
+              +lat+","+lng+"&key=AIzaSyDHwCPBIbCBF_DC6KKYY04TsI6qgyTd-J8")
 
-        ajax.onreadystatechange = function () {
-            if (ajax.readyState === XMLHttpRequest.DONE) {
-                if (ajax.status === 200) {
-                    var obj = JSON.parse(ajax.responseText)
-                    if (obj.results && obj.results.length > 0) {
-                        resolve(obj.results[0].formatted_address)
-                    }
-                } 
-            }
-        }
-        ajax.send()
-    })
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState === XMLHttpRequest.DONE) {
+        if (ajax.status === 200) {
+          var obj = JSON.parse(ajax.responseText)
+          if (obj.results && obj.results.length > 0) {
+            resolve(obj.results[0].formatted_address)
+          }
+        } 
+      }
+    }
+    ajax.send()
+  })
 }

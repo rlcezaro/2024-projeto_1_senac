@@ -41,8 +41,6 @@ app.post("/cadastrar", (req, res) => {
       "titulo": req.body.titulo, 
       "descricao": req.body.descricao, 
       "tipo": req.body.tipo, 
-//      "latitude": -30.441012532452866,
-//      "longitude": -51.860946194738375, 
       "latitude": req.body.latitude, 
       "longitude": req.body.longitude, 
       "dataHora": req.body.dataHora,
