@@ -116,11 +116,8 @@ function attOcorrencia(id){
   ajax = new XMLHttpRequest()
   ajax.open("PUT", "http://localhost:8081/attOcorrencia", true)
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-  if (observacao == "null" || observacao == "") {
-    ajax.send("id="+id+"&status="+status)
-  }else{
-    ajax.send("id="+id+"&status="+status+"&observacao="+observacao)
-  }
+  ajax.send("id="+id+"&status="+status+"&observacao="+observacao)
+  
 }
 
 function deletar(id) {

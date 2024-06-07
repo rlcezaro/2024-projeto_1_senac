@@ -68,7 +68,7 @@ function verOcorrencias() {
           divOcorrencia.innerHTML += "<p>Tipo: "+ocorrencia.tipo+"</p>"
           divOcorrencia.innerHTML += "<p>Endereço: " + endereco + "</p>"
           divOcorrencia.innerHTML += "<p>Status: "+ocorrencia.statusAndamento+"</p>"
-          if(ocorrencia.observacao != null){
+          if(ocorrencia.observacao != "null" && ocorrencia.observacao != null && ocorrencia.observacao != ""){
             divOcorrencia.innerHTML += "<p>Observação: "+ocorrencia.observacao+"</p>"
           }
           divOcorrencia.innerHTML +=  `<input type="button" onclick="initMap(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`,17)" value="Ver no mapa">`
