@@ -67,6 +67,7 @@ function verOcorrencias() {
           divOcorrencia.innerHTML += "<p>Descrição: "+ocorrencia.descricao+"</p>"
           divOcorrencia.innerHTML += "<p>Tipo: "+ocorrencia.tipo+"</p>"
           divOcorrencia.innerHTML += "<p>Endereço: " + endereco + "</p>"
+          divOcorrencia.innerHTML += "<p>Data e Hora: " + ocorrencia.dataHora + "</p>"
           divOcorrencia.innerHTML += "<p>Status: "+ocorrencia.statusAndamento+"</p>"
           if(ocorrencia.observacao != "null" && ocorrencia.observacao != null && ocorrencia.observacao != ""){
             divOcorrencia.innerHTML += "<p>Observação: "+ocorrencia.observacao+"</p>"

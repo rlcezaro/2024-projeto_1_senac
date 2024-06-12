@@ -66,6 +66,7 @@ function verOcorrencias() {
             divOcorrencia.innerHTML += "<p>Descrição: "+ocorrencia.descricao+"</p>"
             divOcorrencia.innerHTML += "<p>Tipo: "+ocorrencia.tipo+"</p>"
             divOcorrencia.innerHTML += "<p>Endereço: " + endereco + "</p>"
+            divOcorrencia.innerHTML += "<p>Data e Hora: " + ocorrencia.dataHora + "</p>"
 
             divOcorrencia.innerHTML += "<p>Status:</p>"
             divOcorrencia.innerHTML += `<select style="display:block" id="status">
