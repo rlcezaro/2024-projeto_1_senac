@@ -24,6 +24,7 @@ CREATE TABLE ocorrencias(
     tipo VARCHAR(30),
     latitude DOUBLE,
     longitude DOUBLE,
+    endereco VARCHAR(500),
     dataHora DATETIME,
     statusAndamento VARCHAR(30),
     observacao VARCHAR(300),
@@ -31,9 +32,9 @@ CREATE TABLE ocorrencias(
     FOREIGN KEY(usuario) REFERENCES usuarios(id)
 );
 
-INSERT INTO ocorrencias(usuario,titulo,descricao,tipo,latitude,longitude,dataHora,statusAndamento)VALUES
-(1,"Primeira ocorrência", "Essa é a primeira ocorrência","asfaltoCalcada","-30.035116424888752","-51.22658856554252","2003-04-11 20:00:00","aberto"),
-(2,"Ocorrência", "Essa é uma ocorrência de um usuário diferente","asfaltoCalcada","-30.035219554093047","-51.226684350288835","2003-04-11 20:00:00","aberto");
+INSERT INTO ocorrencias(usuario,titulo,descricao,tipo,latitude,longitude,endereco,dataHora,statusAndamento)VALUES
+(1,"Primeira ocorrência", "Essa é a primeira ocorrência","asfaltoCalcada","-30.035116424888752","-51.22658856554252", "Cel. Genuíuno, 130 - Centro Histórico, Porto Alegre - RS, Brasil","2003-04-11 20:00:00","aberto"),
+(2,"Ocorrência", "Essa é uma ocorrência de um usuário diferente","asfaltoCalcada","-30.035219554093047","-51.226684350288835", "Cel. Genuíuno, 130 - Centro Histórico, Porto Alegre - RS, Brasil","2003-04-11 20:00:00","aberto");
 SELECT * FROM ocorrencias;
 
 

@@ -43,6 +43,7 @@ app.post("/cadastrar", (req, res) => {
       "tipo": req.body.tipo, 
       "latitude": req.body.latitude, 
       "longitude": req.body.longitude, 
+      "endereco": req.body.endereco,
       "dataHora": req.body.dataHora,
       "statusAndamento": "aberto"
     }).then((dados) => {

@@ -57,23 +57,24 @@ function verOcorrencias() {
     if (ajax.readyState === XMLHttpRequest.DONE) {
       var obj = JSON.parse(ajax.responseText)
       obj.forEach((ocorrencia) => {
-        pegarEndereco(ocorrencia.latitude, ocorrencia.longitude).then((endereco) => {
-          document.getElementById("ocorrencias").innerHTML += "<div id="+ocorrencia.id+"></div>"
-          divOcorrencia = document.getElementById(ocorrencia.id)
+        //pegarEndereco(ocorrencia.latitude, ocorrencia.longitude).then((endereco) => {
+        document.getElementById("ocorrencias").innerHTML += "<div id="+ocorrencia.id+"></div>"
+        divOcorrencia = document.getElementById(ocorrencia.id)
 
 
-          divOcorrencia.innerHTML += "<hr/>"
-          divOcorrencia.innerHTML += "<p>Titulo: "+ocorrencia.titulo+"</p>"
-          divOcorrencia.innerHTML += "<p>Descrição: "+ocorrencia.descricao+"</p>"
-          divOcorrencia.innerHTML += "<p>Tipo: "+ocorrencia.tipo+"</p>"
-          divOcorrencia.innerHTML += "<p>Endereço: " + endereco + "</p>"
-          divOcorrencia.innerHTML += "<p>Data e Hora: " + ocorrencia.dataHora + "</p>"
-          divOcorrencia.innerHTML += "<p>Status: "+ocorrencia.statusAndamento+"</p>"
-          if(ocorrencia.observacao != "null" && ocorrencia.observacao != null && ocorrencia.observacao != ""){
-            divOcorrencia.innerHTML += "<p>Observação: "+ocorrencia.observacao+"</p>"
-          }
-          divOcorrencia.innerHTML +=  `<input type="button" onclick="initMap(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`,17)" value="Ver no mapa">`
-          })
+        divOcorrencia.innerHTML += "<hr/>"
+        divOcorrencia.innerHTML += "<p>Titulo: "+ocorrencia.titulo+"</p>"
+        divOcorrencia.innerHTML += "<p>Descrição: "+ocorrencia.descricao+"</p>"
+        divOcorrencia.innerHTML += "<p>Tipo: "+ocorrencia.tipo+"</p>"
+        //divOcorrencia.innerHTML += "<p>Endereço: " + endereco + "</p>"
+        divOcorrencia.innerHTML += "<p>Endereço: " + ocorrencia.endereco + "</p>"
+        divOcorrencia.innerHTML += "<p>Data e Hora: " + ocorrencia.dataHora + "</p>"
+        divOcorrencia.innerHTML += "<p>Status: "+ocorrencia.statusAndamento+"</p>"
+        if(ocorrencia.observacao != "null" && ocorrencia.observacao != null && ocorrencia.observacao != ""){
+          divOcorrencia.innerHTML += "<p>Observação: "+ocorrencia.observacao+"</p>"
+        }
+        divOcorrencia.innerHTML +=  `<input type="button" onclick="initMap(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`,17)" value="Ver no mapa">`
+        //})
       })
     }
     initMap()
@@ -83,22 +84,22 @@ function verOcorrencias() {
 
 
 
-function pegarEndereco(lat, lng) {
-  return new Promise((resolve) => {
-    var ajax = new XMLHttpRequest()
-    ajax.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="
-              +lat+","+lng+"&key=AIzaSyDHwCPBIbCBF_DC6KKYY04TsI6qgyTd-J8")
-
-    ajax.onreadystatechange = function () {
-      if (ajax.readyState === XMLHttpRequest.DONE) {
-        if (ajax.status === 200) {
-          var obj = JSON.parse(ajax.responseText)
-          if (obj.results && obj.results.length > 0) {
-            resolve(obj.results[0].formatted_address)
-          }
-        } 
-      }
-    }
-    ajax.send()
-  })
-}
+//function pegarEndereco(lat, lng) {
+//  return new Promise((resolve) => {
+//    var ajax = new XMLHttpRequest()
+//    ajax.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="
+//              +lat+","+lng+"&key=AIzaSyDHwCPBIbCBF_DC6KKYY04TsI6qgyTd-J8")
+//
+//    ajax.onreadystatechange = function () {
+//      if (ajax.readyState === XMLHttpRequest.DONE) {
+//        if (ajax.status === 200) {
+//          var obj = JSON.parse(ajax.responseText)
+//          if (obj.results && obj.results.length > 0) {
+//            resolve(obj.results[0].formatted_address)
+//          }
+//        } 
+//      }
+//    }
+//    ajax.send()
+//  })
+//}

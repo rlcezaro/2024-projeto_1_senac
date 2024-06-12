@@ -41,8 +41,16 @@ function cadastrar(){
   const titulo = document.getElementById("titulo").value
   const descricao = document.getElementById("descricao").value
   const tipo = document.getElementById("tipo").value
+
+  const estado = document.getElementById("estado").value
+  const cidade = document.getElementById("cidade").value
+  const bairro = document.getElementById("bairro").value
+  const rua = document.getElementById("rua").value
+  const numero = document.getElementById("numero").value
+
   const latitude = lat
   const longitude = lng
+  const endereco = rua + ", " + numero + " - " + bairro + ", " + cidade + " - " + estado + ", Brasil"
   const dataHora = document.getElementById("dataHora").value
 
   ajax.open("POST", "http://localhost:8081/cadastrar", true)
@@ -54,7 +62,8 @@ function cadastrar(){
     tipo: tipo,
     latitude: latitude,
     longitude: longitude,
-    dataHora: dataHora,
+    endereco: endereco,
+    dataHora: dataHora
   })
   ajax.send(jsonData)
 }
@@ -66,11 +75,12 @@ function LatLng() {
   //var pais = document.getElementById("pais").value
   var estado = document.getElementById("estado").value
   var cidade = document.getElementById("cidade").value
+  var bairro = document.getElementById("bairro").value
   var rua = document.getElementById("rua").value
   var numero = document.getElementById("numero").value
 
   ajax.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?address="+ 
-            rua +"+"+ numero +","+ cidade +"+"+ estado +","+"+"+ pais 
+            bairro +"+"+ rua +"+"+ numero +","+ cidade +"+"+ estado +","+"+"+ pais 
             +"&key=AIzaSyDHwCPBIbCBF_DC6KKYY04TsI6qgyTd-J8")
 
   ajax.onreadystatechange = function () {
