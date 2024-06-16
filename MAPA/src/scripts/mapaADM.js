@@ -1,6 +1,6 @@
 async function initMap(lat, lng, zoomLvl) {
   const {Map} = await google.maps.importLibrary("maps")
-  const {AdvancedMarkerView} = await google.maps.importLibrary("marker")
+  const {AdvancedMarkerView, PinElement} = await google.maps.importLibrary("marker")
 
   if (lat == undefined && lng == undefined){
     lat = -30.035229878185845
@@ -29,10 +29,18 @@ async function initMap(lat, lng, zoomLvl) {
             content: "<h1>"+ocorrencia.titulo+"</h1>"+ocorrencia.descricao,
             ariaLabel: ocorrencia.titulo,
         })
+        const isTarget = ocorrencia.latitude === lat && ocorrencia.longitude === lng
+        const color = new PinElement({
+          background: isTarget ? "#93afe4" : "",
+          borderColor: isTarget ? "#327da8" : "",
+          glyphColor: isTarget ? "#098a9c" : "",
+        })
         const marker = new AdvancedMarkerView({
           map: map,
           position: { lat: ocorrencia.latitude, lng: ocorrencia.longitude },
+          content: color.element,
         })
+
         marker.addListener("gmp-click", () => {
         //marker.addListener("click", () => {
           infowindow.open({
