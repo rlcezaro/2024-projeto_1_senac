@@ -1,9 +1,9 @@
 async function initMap(tipo) {
   const { Map } = await google.maps.importLibrary("maps")
-  const positionMap = { lat: -30.035229878185845, lng: -51.226468536689104 }
+  const positionMap = { lat: -30.034482386461136, lng: -51.23005590224684 }
 
   map = new Map(document.getElementById("map"), {
-    zoom: 16,
+    zoom: 14,
     center: positionMap,
     gestureHandling: "greedy",
   })

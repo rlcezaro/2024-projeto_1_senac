@@ -1,14 +1,58 @@
-async function initMap(lat, lng, zoomLvl) {
+async function initMap() {
   const {Map} = await google.maps.importLibrary("maps")
   const {AdvancedMarkerView, PinElement} = await google.maps.importLibrary("marker")
 
-  if (lat == undefined && lng == undefined){
-    lat = -30.035229878185845
-    lng = -51.226468536689104
-    zoomLvl = 15
-  }
+  var lat = -30.035229878185845
+  var lng = -51.23005590224684
+  var zoomLvl = 14
   
   var positionMap = { lat: Number(lat), lng: Number(lng) }
+
+  map = new Map(document.getElementById("map"), {
+    zoom: zoomLvl,
+    center: positionMap,
+    mapId: "MAP",
+    disableDefaultUI: true, 
+    zoomControl: true,
+    gestureHandling: "greedy",   
+  })
+
+  var ajax = new XMLHttpRequest()
+  ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
+  ajax.onreadystatechange = function () {
+    if (ajax.readyState === XMLHttpRequest.DONE) {
+      var obj = JSON.parse(ajax.responseText)
+      obj.forEach((ocorrencia) => {
+        const infowindow = new google.maps.InfoWindow({
+          content: "<h1>"+ocorrencia.titulo+"</h1>"+ocorrencia.descricao,
+          ariaLabel: ocorrencia.titulo,
+        })
+      
+        const marker = new AdvancedMarkerView({
+          map: map,
+          position: { lat: ocorrencia.latitude, lng: ocorrencia.longitude },
+        })
+
+        marker.addListener("gmp-click", () => {
+        //marker.addListener("click", () => {
+          infowindow.open({
+            anchor: marker,
+            map,
+          })
+        })
+      })
+    }
+  }
+  ajax.send()
+}
+
+
+async function verNoMapa(lat,lng) {
+  const {Map} = await google.maps.importLibrary("maps")
+  const {AdvancedMarkerView, PinElement} = await google.maps.importLibrary("marker")
+
+  var positionMap = { lat: Number(lat), lng: Number(lng) }
+  var zoomLvl = 18
 
   map = new Map(document.getElementById("map"), {
     zoom: zoomLvl,
@@ -57,8 +101,6 @@ async function initMap(lat, lng, zoomLvl) {
 }
 
 
-
-
 function verOcorrencias() {
   document.getElementById("ocorrencias").innerHTML = ""
   var ajax = new XMLHttpRequest()
@@ -83,7 +125,7 @@ function verOcorrencias() {
         if(ocorrencia.observacao != "null" && ocorrencia.observacao != null && ocorrencia.observacao != ""){
           divOcorrencia.innerHTML += "<p>Observação: "+ocorrencia.observacao+"</p>"
         }
-        divOcorrencia.innerHTML +=  `<input type="button" onclick="initMap(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`,17)" value="Ver no mapa">`
+        divOcorrencia.innerHTML +=  `<input type="button" onclick="verNoMapa(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`)" value="Ver no mapa">`
         //})
       })
     }

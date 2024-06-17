@@ -1,12 +1,10 @@
-async function initMap(lat, lng, zoomLvl) {
+async function initMap() {
   const {Map} = await google.maps.importLibrary("maps")
   const {AdvancedMarkerView, PinElement} = await google.maps.importLibrary("marker")
 
-  if (lat == undefined && lng == undefined){
-    lat = -30.035229878185845
-    lng = -51.226468536689104
-    zoomLvl = 15
-  }
+  var lat = -30.035229878185845
+  var lng = -51.226468536689104
+  var zoomLvl = 14
   
   var positionMap = { lat: Number(lat), lng: Number(lng) }
 
@@ -29,12 +27,60 @@ async function initMap(lat, lng, zoomLvl) {
             content: "<h1>"+ocorrencia.titulo+"</h1>"+ocorrencia.descricao,
             ariaLabel: ocorrencia.titulo,
         })
+
+        const marker = new AdvancedMarkerView({
+          map: map,
+          position: { lat: ocorrencia.latitude, lng: ocorrencia.longitude },
+        })
+
+        marker.addListener("gmp-click", () => {
+        //marker.addListener("click", () => {
+          infowindow.open({
+            anchor: marker,
+            map,
+          })
+        })
+      })
+    }
+  }
+  ajax.send()
+}
+
+
+async function verNoMapa(lat,lng) {
+  const {Map} = await google.maps.importLibrary("maps")
+  const {AdvancedMarkerView, PinElement} = await google.maps.importLibrary("marker")
+
+  var positionMap = { lat: Number(lat), lng: Number(lng) }
+  var zoomLvl = 18
+
+  map = new Map(document.getElementById("map"), {
+    zoom: zoomLvl,
+    center: positionMap,
+    mapId: "MAP",
+    disableDefaultUI: true, 
+    zoomControl: true,
+    gestureHandling: "greedy",   
+  })
+
+  var ajax = new XMLHttpRequest()
+  ajax.open("GET", "http://localhost:8081/ocorrencias")
+  ajax.onreadystatechange = function () {
+    if (ajax.readyState === XMLHttpRequest.DONE) {
+      var obj = JSON.parse(ajax.responseText)
+      obj.forEach((ocorrencia) => {
+        const infowindow = new google.maps.InfoWindow({
+          content: "<h1>"+ocorrencia.titulo+"</h1>"+ocorrencia.descricao,
+          ariaLabel: ocorrencia.titulo,
+        })
+        
         const isTarget = ocorrencia.latitude === lat && ocorrencia.longitude === lng
         const color = new PinElement({
           background: isTarget ? "#93afe4" : "",
           borderColor: isTarget ? "#327da8" : "",
           glyphColor: isTarget ? "#098a9c" : "",
         })
+      
         const marker = new AdvancedMarkerView({
           map: map,
           position: { lat: ocorrencia.latitude, lng: ocorrencia.longitude },
@@ -53,8 +99,6 @@ async function initMap(lat, lng, zoomLvl) {
   }
   ajax.send()
 }
-
-
 
 
 function verOcorrencias() {
@@ -89,7 +133,7 @@ function verOcorrencias() {
             divOcorrencia.innerHTML += `<input type="text" id="observacao`+ocorrencia.id+`" value="`+ocorrencia.observacao+`">`
             divOcorrencia.innerHTML += "<br/>"
             divOcorrencia.innerHTML += "<br/>"
-            divOcorrencia.innerHTML += `<input type="button" onclick="initMap(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`,17)" value="Ver no mapa">`
+            divOcorrencia.innerHTML += `<input type="button" onclick="verNoMapa(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`)" value="Ver no mapa">`
             divOcorrencia.innerHTML += `<input type="button" onclick="attOcorrencia(`+ocorrencia.id+`)" value="Salvar">`
             divOcorrencia.innerHTML += `<input type="button" onclick="deletar(`+ocorrencia.id+`)" value="Deletar">`
           })

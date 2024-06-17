@@ -50,10 +50,10 @@ function cadastrar(){
 
   var latitude = lat
   var longitude = lng
-  if (latitude === -30.035229878185845 && longitude === -51.226468536689104){
-    latitude = -30.035229878185845
-    longitude = -51.2264685366891
-  }
+//  if (latitude === -30.035229878185845 && longitude === -51.226468536689104){
+//    latitude = -30.035229878185845
+//    longitude = -51.2264685366891
+//  }
 
   const endereco = rua + ", " + numero + " - " + bairro + ", " + cidade + " - " + estado + ", Brasil"
   const dataHora = document.getElementById("dataHora").value
