@@ -47,7 +47,7 @@ async function initMap() {
 }
 
 
-async function verNoMapa(lat,lng) {
+async function verNoMapa(lat,lng,id) {
   const {Map} = await google.maps.importLibrary("maps")
   const {AdvancedMarkerView, PinElement} = await google.maps.importLibrary("marker")
 
@@ -74,7 +74,7 @@ async function verNoMapa(lat,lng) {
           ariaLabel: ocorrencia.titulo,
         })
         
-        const isTarget = ocorrencia.latitude === lat && ocorrencia.longitude === lng
+        const isTarget = ocorrencia.id === id
         const color = new PinElement({
           background: isTarget ? "#93afe4" : "",
           borderColor: isTarget ? "#327da8" : "",
@@ -133,7 +133,7 @@ function verOcorrencias() {
             divOcorrencia.innerHTML += `<input type="text" id="observacao`+ocorrencia.id+`" value="`+ocorrencia.observacao+`">`
             divOcorrencia.innerHTML += "<br/>"
             divOcorrencia.innerHTML += "<br/>"
-            divOcorrencia.innerHTML += `<input type="button" onclick="verNoMapa(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`)" value="Ver no mapa">`
+            divOcorrencia.innerHTML += `<input type="button" onclick="verNoMapa(`+ocorrencia.latitude+`,`+ocorrencia.longitude+`,`+ocorrencia.id+`)" value="Ver no mapa">`
             divOcorrencia.innerHTML += `<input type="button" onclick="attOcorrencia(`+ocorrencia.id+`)" value="Salvar">`
             divOcorrencia.innerHTML += `<input type="button" onclick="deletar(`+ocorrencia.id+`)" value="Deletar">`
           })
