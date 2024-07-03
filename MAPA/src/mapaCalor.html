@@ -10,10 +10,16 @@
 
     <div id="map"></div>
 
-    <input type="button" onclick="initMap('todos')" value="Todos">
-    <input type="button" onclick="initMap('assaltoFurto')" value="Assalto/Furto">
-    <input type="button" onclick="initMap('asfaltoCalcada')" value="Problema no asfalto/calçada">
-    <input type="button" onclick="initMap('aguaLuz')" value="Falta de água/luz">
+    <input id="todos" type="button" onclick="mudaTipo('todos')" value="todos">
+    <input id="assaltoFurto" type="button" onclick="mudaTipo('assaltoFurto')" value="Assalto/Furto">
+    <input id="asfaltoCalcada" type="button" onclick="mudaTipo('asfaltoCalcada')" value="Problema no asfalto/calçada">
+    <input id="aguaLuz" type="button" onclick="mudaTipo('aguaLuz')" value="Falta de água/luz">
+    <select id="data" onchange="mudaData()">
+      <option value="dia">Dia</option>
+      <option value="mes">Mês</option>
+      <option value="ano">Ano</option>
+      <option value="geral" selected>Geral</option>
+    </select>
 
 
     <script async
