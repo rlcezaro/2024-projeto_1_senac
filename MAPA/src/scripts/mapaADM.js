@@ -18,7 +18,8 @@ async function initMap() {
   })
 
   var ajax = new XMLHttpRequest()
-  ajax.open("GET", "http://localhost:8081/ocorrencias")
+  //ajax.open("GET", "http://localhost:8081/ocorrencias")
+  ajax.open("GET", "http://52.14.161.176:3000/ocorrencias")
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {
       var obj = JSON.parse(ajax.responseText)
@@ -64,7 +65,8 @@ async function verNoMapa(lat,lng,id) {
   })
 
   var ajax = new XMLHttpRequest()
-  ajax.open("GET", "http://localhost:8081/ocorrencias")
+  //ajax.open("GET", "http://localhost:8081/ocorrencias")
+  ajax.open("GET", "http://52.14.161.176:3000/ocorrencias")
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {
       var obj = JSON.parse(ajax.responseText)
@@ -104,7 +106,8 @@ async function verNoMapa(lat,lng,id) {
 function verOcorrencias() {
   document.getElementById("ocorrencias").innerHTML = ""
     var ajax = new XMLHttpRequest()
-    ajax.open("GET", "http://localhost:8081/ocorrencias")
+    //ajax.open("GET", "http://localhost:8081/ocorrencias")
+    ajax.open("GET", "http://52.14.161.176:3000/ocorrencias")
     ajax.onreadystatechange = function () {
       if (ajax.readyState === XMLHttpRequest.DONE) {
         var obj = JSON.parse(ajax.responseText)
@@ -168,7 +171,8 @@ function attOcorrencia(id){
   var observacao = document.getElementById("observacao"+id).value
   var status = document.getElementById("status").value
   ajax = new XMLHttpRequest()
-  ajax.open("PUT", "http://localhost:8081/attOcorrencia", true)
+  //ajax.open("PUT", "http://localhost:8081/attOcorrencia", true)
+  ajax.open("PUT", "http://52.14.161.176:3000/attOcorrencia", true)
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
   ajax.send("id="+id+"&status="+status+"&observacao="+observacao)
   
@@ -176,7 +180,8 @@ function attOcorrencia(id){
 
 function deletar(id) {
   var ajax = new XMLHttpRequest()
-  ajax.open("DELETE", "http://localhost:8081/deletar", true)
+  //ajax.open("DELETE", "http://localhost:8081/deletar", true)
+  ajax.open("DELETE", "http://52.14.161.176:3000/deletar", true)
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {

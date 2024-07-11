@@ -58,7 +58,8 @@ function cadastrar(){
   const endereco = rua + ", " + numero + " - " + bairro + ", " + cidade + " - " + estado + ", Brasil"
   const dataHora = document.getElementById("dataHora").value
 
-  ajax.open("POST", "http://localhost:8081/cadastrar", true)
+  //ajax.open("POST", "http://localhost:8081/cadastrar", true)
+  ajax.open("POST", "http://52.14.161.176:3000/cadastrar", true)
   ajax.setRequestHeader("Content-Type", "application/json")
 
   const jsonData = JSON.stringify({

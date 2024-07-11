@@ -1,15 +1,16 @@
-const cors = require('cors')
-const express = require("express")
-const app = express()
+const cors = require('cors');
+const express = require("express");
+const app = express();
 const knex = require("knex")({
     client: "mysql",
     connection: {
         host: "localhost",
         user: "root",
         password: "",
-        database: "sistema"
+        database: "sistema",
+        port: 3306  
     }
-})
+});
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cors({

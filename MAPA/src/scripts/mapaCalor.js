@@ -11,7 +11,8 @@ async function initMap() {
     gestureHandling: "greedy",
   })
   var ajax = new XMLHttpRequest()
-  ajax.open("GET", "http://localhost:8081/ocorrenciasMapaCalor?tipo="+tipo+"&data="+escopo)
+  //ajax.open("GET", "http://localhost:8081/ocorrenciasMapaCalor?tipo="+tipo+"&data="+escopo)
+  ajax.open("GET", "http://52.14.161.176:3000/ocorrenciasMapaCalor?tipo="+tipo+"&data="+escopo)
 
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {

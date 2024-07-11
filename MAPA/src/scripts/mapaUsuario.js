@@ -18,7 +18,8 @@ async function initMap() {
   })
 
   var ajax = new XMLHttpRequest()
-  ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
+  //ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
+  ajax.open("GET", "http://52.14.161.176:3000/ocorrenciasUsuario?usuario=" + 1)
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {
       var obj = JSON.parse(ajax.responseText)
@@ -64,7 +65,8 @@ async function verNoMapa(lat,lng,id) {
   })
 
   var ajax = new XMLHttpRequest()
-  ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
+  //ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
+  ajax.open("GET", "http://52.14.161.176:3000/ocorrenciasUsuario?usuario=" + 1)
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {
       var obj = JSON.parse(ajax.responseText)
@@ -104,7 +106,8 @@ async function verNoMapa(lat,lng,id) {
 function verOcorrencias() {
   document.getElementById("ocorrencias").innerHTML = ""
   var ajax = new XMLHttpRequest()
-  ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
+  //ajax.open("GET", "http://localhost:8081/ocorrenciasUsuario?usuario=" + 1)
+  ajax.open("GET", "http://52.14.161.176:3000/ocorrenciasUsuario?usuario=" + 1)
   ajax.onreadystatechange = function () {
     if (ajax.readyState === XMLHttpRequest.DONE) {
       var obj = JSON.parse(ajax.responseText)
