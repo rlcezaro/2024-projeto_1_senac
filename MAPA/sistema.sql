@@ -33,12 +33,16 @@ CREATE TABLE ocorrencias(
 );
 
 INSERT INTO ocorrencias(usuario,titulo,descricao,tipo,latitude,longitude,dataHora,statusAndamento)VALUES
-(1,"Primeira ocorrência", "Essa é a primeira ocorrência","asfaltoCalcada","-30.035116424888752","-51.22658856554252","2023-01-11 20:00:00","aberto"),
-(2,"Ocorrência", "Essa é uma ocorrência de um usuário diferente","asfaltoCalcada","-30.035219554093047","-51.226684350288835","2023-01-11 20:00:00","aberto");
+(1,"Primeira ocorrência", "Essa é a primeira ocorrência","aguaLuz","-30.035229878185845","-51.226468536689104","2023-01-11 20:00:00","aberto"),
+(2,"Ocorrência", "Essa é uma ocorrência de um usuário diferente","aguaLuz","-30.035219554093047","-51.226684350288835","2023-01-11 20:00:00","aberto");
 SELECT * FROM ocorrencias;
+SELECT * 
+FROM ocorrencias
+WHERE tipo = 
+AND date(dataHora) = "2023-01-11";
 
 
-DELETE from ocorrencias WHERE id > 3;
+DELETE from ocorrencias WHERE id > 0;
 DROP DATABASE sistema;
 DROP TABLE ocorrencias;
 UPDATE ocorrencias SET observacao = "Chamado foi aberto para teste" WHERE id = 1;
